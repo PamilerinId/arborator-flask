@@ -9,9 +9,16 @@ class DevelopmentConfig(Config):
     """
     Development configurations
     """
-    TESTING = True
+
     DEBUG = True
     SQLALCHEMY_ECHO = True
+
+class TestingConfig(Config):
+    """
+    Testing configurations
+    """
+
+    TESTING = True
 
 class ProductionConfig(Config):
     """
@@ -23,4 +30,5 @@ class ProductionConfig(Config):
 app_config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig
+    'testing': TestingConfig
 }
