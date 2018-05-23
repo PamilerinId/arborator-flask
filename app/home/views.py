@@ -2,7 +2,7 @@ from flask import render_template
 from flask_login import login_required
 from app import requires_access_level
 from . import home
-
+from ..models import *
 
 
 @home.route('/')
@@ -10,7 +10,8 @@ def home_page():
     """
     Home Handler
     """
-    return render_template('home/index.html')
+    projects = Project.query.all()
+    return render_template('home/index.html', projects=projects)
 
 @home.route('/admin')
 @login_required

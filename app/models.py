@@ -26,6 +26,7 @@ class User(UserMixin, db.Model):
     access_level= db.Column(ChoiceType(ACCESS), default=0)
     role =db.Column(ChoiceType(ROLES), nullable = True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+    tree_id = db.Column(db.Integer, db.ForeignKey('trees.id'))
     created_date = db.Column(db.DateTime)
     last_seen = db.Column(db.DateTime) 
     # is_admin = db.Column(db.Boolean, default=False)
@@ -58,8 +59,8 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(150))
-    users = db.relationship('User', backref='project',
-                                lazy='dynamic')
+    users = db.relationship('User', backref='project',lazy='dynamic')
+    text = db.Column(db.Integer, db.ForeignKey('texts.id'))
 
 
 
@@ -67,9 +68,10 @@ class Text(db.Model):
     __tablename__ = 'texts'
     
     id = db.Column(db.Integer, primary_key=True)
+    project = db.relationship('Project', backref='text', lazy=True)
     textname = db.Column(db.Text, unique=True)
     nrtokens = db.Column(db.Integer)
-    sentences = db.relationship('Sentence', backref='texts', lazy=True)
+    sentences = db.relationship('Sentence', backref='text', lazy=True)
 
 class Sentence(db.Model):
     __tablename__ = 'sentences'
@@ -93,7 +95,6 @@ class Tree(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sentenceid = db.Column(db.Integer, db.ForeignKey('sentences.id'), primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey('users.id'),primary_key=True)
-    annotype = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Text)
     comment = db.Column(db.Text)
     timestamp = db.Column(db.DateTime)
@@ -109,7 +110,7 @@ class Feature(db.Model):
 class SentenceFeature(db.Model):
     __tablename__ = 'sentencefeatures'
 
-    sentenceid= db.Column(db.Integer(), db.ForeignKey('trees.id'), primary_key=True))
+    sentenceid= db.Column(db.Integer, db.ForeignKey('trees.id'), primary_key=True)
     attr = db.Column(db.Text)
     value = db.Column(db.Text)
 

@@ -18,7 +18,7 @@ def choose_provider():
     """
     return render_template('auth/index.html')
 
-@auth.route('/login/<provider_name>/', methods=['GET'])
+@auth.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):
     """
     Login handler.
