@@ -2,14 +2,16 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, IntegerField
 from wtforms.validators import DataRequired
 
-
-
- ACCESS = [
-    (0, 'guest'),
-    (1, 'user'),
-    (2, 'admin'),]
-
-ROLES =  [(0, 'annotator'), (1, 'validator')]
+ACCESS = [
+    (0, 'guest'), 
+    (1, 'user'), 
+    (2, 'admin')
+    ]
+    
+ROLES =  [
+    (0, 'annotator'), 
+    (1, 'validator')
+    ]
 
 #Project forms
 class ProjectForm(FlaskForm):
