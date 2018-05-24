@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html>
-        <html>
-                <head>
-                    <title>Arborator | {{ title }}</title>
-                    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <head>
+        <title>Arborator | {{ title }}</title>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 
-                    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-                    <script type="text/javascript" src="{{ url_for('static', filename='js/raphael.js') }}"></script>
-                    
-                    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-1.8.18.custom.min.js') }}"></script>
-                    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
-                    
-                    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui-1.8.18.custom.css') }}" media="screen" />
-                    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/arborator.css') }}"/>
-                    {% block head_js%} {% endblock %}
-                </head>
-            
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/raphael.js') }}"></script>
+        
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-ui-1.8.18.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
+        
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui-1.8.18.custom.css') }}" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/arborator.css') }}"/>
+        {% block head_js%} {% endblock %}
+    </head>
+
     <body id="body">
             <div class="header">
                 <br> <br> 
                 <a href="."><img src="{{ url_for ('static', filename='images/arboratorNano.png') }}" alt="arborator" title="arborator" border=0px/></a>
                 <div class="arbortitle ui-widget-header ui-helper-clearfix" style="width:100%;margin:0px;border:0px;">
                 </div>
-            </div> 
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                  <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                  <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.username }}!</a></li>
+                {% else %}
+                  <li><a href="{{ url_for('home.home_page') }}">Home</a></li>
+                  <li><a href="{{ url_for('auth.choose_provider') }}">Login</a></li>
+                {% endif %}
+            </ul>
+            <div><a href="{{ url_for('home.q_test') }}"><p>Test run Arborator</p></a></div>
         {% block body %}{% endblock %}
     </body>
 </html>

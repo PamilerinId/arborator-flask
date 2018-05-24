@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-# config.py
+# authomatic providers config.py
 
 import authomatic
 from authomatic.providers import oauth1, oauth2
-
-
-
-
 
 CONFIG = { 
     'twitter': {  # Your internal provider name

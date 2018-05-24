@@ -14,6 +14,13 @@ def check_admin():
     if not current_user.is_admin:
         abort(403)
 
+##Dashboard View
+@admin.route('/')
+@login_required
+def dashboard():
+    check_admin()
+    return render_template('admin/index.html', title="Dashboard")
+
 
 ##Projects Views
 @admin.route('/projects', methods=['GET', 'POST'])
@@ -53,8 +60,9 @@ def add_project():
             # in case project name already exists
             flash('Error: project name already exists.')
 
-        # redirect to projects page
-        return redirect(url_for('admin.list_projects'))
+    # redirect to projects page
+    return redirect(url_for('admin.list_projects'))
+##Edit Project Config files (Autocreate on project add)
 
 @admin.route('/projects/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -84,6 +92,7 @@ def edit_project(id):
                            project=project, title="Edit Project")
 
 
+
 @admin.route('/projects/delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_project(id):
@@ -100,18 +109,15 @@ def delete_project(id):
     # redirect to the projects page
     return redirect(url_for('admin.list_projects'))
 
-    return render_template(title="Delete Project")
-
 
 ##User Views
-""" @admin.route('/users')
+@admin.route('/users')
+@login_required
 def list_user():
     check_admin()
     users = User.query.all()
     return render_template('admin/users/users.html',
                         users=users, title="Users") 
-                        """
-
 
 @admin.route('/users/assign/<int:id>', methods=['GET', 'POST'])
 @login_required

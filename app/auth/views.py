@@ -11,10 +11,10 @@ from instance.config import SECRET_KEY
 
 authomatic = Authomatic(CONFIG, SECRET_KEY, report_errors=True)
 
-@auth.route('/provider')
+@auth.route('/auth')
 def choose_provider():
     """
-    Login Page Handler
+    Login Providers Page Handler
     """
     return render_template('auth/index.html')
 
@@ -56,22 +56,21 @@ def login(provider_name):
                 first_name=result.user.first_name,
                 family_name=result.user.last_name,
                 picture_url=result.user.picture,
-                access_level = 0
+                access_level=0,
                 created_date=datetime.utcnow(),
-                last_seen=datetime.utcnow()))
+                last_seen=datetime.utcnow())
                 # ##Add Try/Catch and Logger Here
-                # ##Check if user exists before 
+                # ##Check if user exists in dbS 
                 db.session.add(user)
                 db.session.commit()
 
             login_user(user, remember=True)
-            ##Check if Super(seperate func>>)
-            if user.is_super:#(create list of preset super admin emails... .ini file  maybe)
-                return redirect(url_for('home.admin_dash'))
+            if user.is_super:#(create list of preset super admin emails... maybe .ini file)
+                return render_template('admin/dashboard.html')
             # elif user.is_admin:
-            #     ##check project(s) in charge
-            #     ##redirect to project page
-             # The rest happens inside the template.
+            #     check project(s) in charge
+            #     redirect to project page
+            # The rest happens inside the template.
             return render_template('home/index.html', result=result)
 
     return response

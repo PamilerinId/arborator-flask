@@ -1,20 +1,26 @@
 from flask import render_template
 from flask_login import login_required
 from app import requires_access_level
-from . import home
+from . import project
 
 
+@project.route('/admin')
+@login_required
+@requires_access_level(2)
+def admin_dash():      
+    return render_template('project/dashboard.html')
 
-def list_projects():
-    """
-    List all projects
-    """
-    check_admin()
 
-    projects = Project.query.all()
+# def list_projects():
+#     """
+#     List all projects
+#     """
+#     check_admin()
 
-    return render_template('project/projects.html',
-                           projects=projects, title="Projects")
+#     projects = Project.query.all()
+
+#     return render_template('project/projects.html',
+#                            projects=projects, title="Projects")
 
 @project.route('/<project_name>')
 def projectpage(project_name):
@@ -25,7 +31,7 @@ def projectpage(project_name):
     ##read in user congig files
     ##associate user with particular project
 
-    return render_template('project/project.html',project_name=project_name, title=project_name)
+    return render_template('projects/index.html',project_name=project_name, title=project_name)
 
 
 
