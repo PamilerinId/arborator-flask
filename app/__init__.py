@@ -14,10 +14,10 @@ from config import app_config
 # db variable initialization
 db = SQLAlchemy()
 
-login = LoginManager()
-
-## Throws error if placed above db initialization
+login_manager = LoginManager()
+# Throws error if placed above db initialization
 from models import *
+
 
 def requires_access_level(access_level):
     def decorator(f):

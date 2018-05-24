@@ -17,9 +17,7 @@ def check_admin():
 
 ##Projects Views
 @admin.route('/projects', methods=['GET', 'POST'])
-"""call list function from projects
-"""
-@login_required
+@login_required  #call list function from projects
 def list_projects():
     """
     List all projects
@@ -106,16 +104,15 @@ def delete_project(id):
 
 
 ##User Views
-@admin.route('/users')
-"""
-    List all projects
-    """
+""" @admin.route('/users')
+def list_user():
     check_admin()
-
     users = User.query.all()
-
     return render_template('admin/users/users.html',
-                           users=users, title="Users")
+                        users=users, title="Users") 
+                        """
+
+
 @admin.route('/users/assign/<int:id>', methods=['GET', 'POST'])
 @login_required
 def assign_user(id):

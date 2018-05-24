@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, IntegerField
+from wtforms import StringField, SubmitField, SelectField, IntegerField, QuerySelectField
 from wtforms.validators import DataRequired
 
 ACCESS = [
     (0, 'guest'), 
     (1, 'user'), 
-    (2, 'admin')
+    (2, 'admin'),
+    (3, 'super')
     ]
     
 ROLES =  [
@@ -22,15 +23,15 @@ class ProjectForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-    ##Restructure createdb ...
+    ## TODO: Restructure createdb ...
 
 ##User Forms
-class EmployeeAssignForm(FlaskForm):
+class UserAssignForm(FlaskForm):
     """
     Form for admin to assign projects and roles to users
     """
     project = QuerySelectField(query_factory=lambda: Project.query.all(),
                                   get_label="name")
-    access_level = SelectField('Level', choices=ACCESS)
+    access_level = 1
     role = SelectField('Role', choices=ROLES)
     submit = SubmitField('Submit')

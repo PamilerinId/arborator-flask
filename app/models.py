@@ -2,14 +2,14 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy_utils import ChoiceType
 
-from app import db
+from app import db, login_manager
 
 class User(UserMixin, db.Model):
     ACCESS = [
     (0, 'guest'),
     (1, 'user'),
     (2, 'admin'),
-    (3, 'super_admin')]
+    (3, 'super')]
 
     ROLES =  [(0, 'annotator'), (1, 'validator')]
 
@@ -25,18 +25,16 @@ class User(UserMixin, db.Model):
     picture_url = db.Column(db.String(128), index=True)
     access_level= db.Column(ChoiceType(ACCESS), default=0)
     role =db.Column(ChoiceType(ROLES), nullable = True)
-    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
-    tree_id = db.Column(db.Integer, db.ForeignKey('trees.id'))
     created_date = db.Column(db.DateTime)
     last_seen = db.Column(db.DateTime) 
     # is_admin = db.Column(db.Boolean, default=False)
 
     def is_admin(self):
-        return self.access == ACCESS['admin'] or ACCESS['super_admin']
+        return self.access == ACCESS['admin']
 
     def is_super(self): ##Might not be necessary eventually
         ##check emails in preset email array
-        return self.access == ACCESS['super_admin']
+        return self.access == ACCESS['super']
     
     def allowed(self, level):
         return self.access >= level
@@ -48,8 +46,6 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
 
 
 
@@ -125,8 +121,8 @@ class Link(db.Model):
 class Todo(db.Model):
     __tablename__ = 'todos'
 
-    userid = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True))
-    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True))
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True)
     type = db.Column(db.Text)
     status = db.Column(db.Text)
     comment = db.Column(db.Text)
@@ -134,14 +130,14 @@ class Todo(db.Model):
 class Exo(db.Model):
     __tablename__ = 'exo'
 
-    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True))##foregn key lol
+    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True)##foregn key lol
     type = db.Column(db.Integer)
     exotoknum = db.Column(db.Integer)
     status = db.Column(db.Text)
     comment = db.Column(db.Text)
 
-class ExoUserSentence(db.model):
-    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True))
-    userid = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True))
-    sentenceid = db.Column(db.Integer, db.ForeignKey('sentences.id'), primary_key=True))
+class ExoUserSentence(db.Model):
+    textid = db.Column(db.Integer, db.ForeignKey('texts.id'), primary_key=True)
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    sentenceid = db.Column(db.Integer, db.ForeignKey('sentences.id'), primary_key=True)
 
