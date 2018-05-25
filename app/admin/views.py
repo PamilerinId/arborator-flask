@@ -80,7 +80,7 @@ def edit_project(id):
         project.name = form.name.data
         project.description = form.description.data
         db.session.commit()
-        flash('You have successfully edited the sproject.')
+        flash('You have successfully edited the project.')
 
         # redirect to the projects page
         return redirect(url_for('admin.list_projects'))
@@ -113,7 +113,7 @@ def delete_project(id):
 ##User Views
 @admin.route('/users')
 @login_required
-def list_user():
+def list_users():
     check_admin()
     users = User.query.all()
     return render_template('admin/users/users.html',

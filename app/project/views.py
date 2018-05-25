@@ -2,30 +2,74 @@ from flask import render_template
 from flask_login import login_required
 from app import requires_access_level
 from . import project
+from ..models import *
 
 
-@project.route('/admin')
+def check_admin():
+    """
+    Prevent non-admins from accessing the page
+    """
+    if not current_user.is_admin:
+        abort(403)
+
+###################################### Admin Dashboard Views and Functions ######################################
+@project.route('/<project_name>/admin')
 @login_required
 @requires_access_level(2)
-def admin_dash():      
-    return render_template('project/dashboard.html')
+def admin_dash(project_name): 
+	"""
+	Project Dashboard Handler
+	"""
+	check_admin()
+	project = Project.query.filter_by(name=project_name).first()
+	users = User.query.all()
+    return render_template('project/dashboard.html', project=project, users=users)
 
 
-# def list_projects():
-#     """
-#     List all projects
-#     """
-#     check_admin()
+@project.route('/<project_name>/admin/add/<int:id>', methods=['GET', 'POST'])
+@login_required
+@requires_access_level(2)
+def add_user(id, project_id):
+    check_admin()
+	user = User.query.get_or_404(id)
+	user.project_id = project_id
+	db.session.add(user)
+	db.session.commit()
+	flash('You have successfully added a user to your project.')
+    return render_template('projects/add_user.html')## testing include function 
+	##angular style of template inclusion and value inheritance
 
-#     projects = Project.query.all()
 
-#     return render_template('project/projects.html',
-#                            projects=projects, title="Projects")
 
+@project.route('/<project_name>/admin/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+@requires_access_level(2)
+def edit_role(id, role):
+    check_admin()
+	user = User.query.get_or_404(id)
+	user.role = role
+	db.session.add(user)
+	db.session.commit()
+	flash('You have successfully changed a users role')
+    return render_template('projects/dashboard.html')
+
+
+@project.route('/<project_name>/admin/remove/<int:id>', methods=['GET', 'POST'])
+@login_required
+@requires_access_level(2)
+def remove_user(id):
+    user = User.query.get_or_404(id)
+	db.session.delete(user.project_id)
+	db.session.commit()
+    flash('You have successfully removed a user.')
+    return render_template('projects/dashboard.html', )
+
+
+###################################### Project Page Views and Functions ######################################
 @project.route('/<project_name>')
 def projectpage(project_name):
     """
-    Individual project pages
+    Project Page Handler
     """    
     ##check if user assigned
     ##read in user congig files

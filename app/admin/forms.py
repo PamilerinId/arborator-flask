@@ -4,10 +4,8 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired
 
 ACCESS = [
-    (0, 'guest'), 
     (1, 'user'), 
     (2, 'admin'),
-    (3, 'super')
     ]
     
 ROLES =  [
@@ -33,6 +31,6 @@ class UserAssignForm(FlaskForm):
     """
     project = QuerySelectField(query_factory=lambda: Project.query.all(),
                                   get_label="name")
-    access_level = 1
+    access_level = SelectField('Level', choices=ACCESS)
     role = SelectField('Role', choices=ROLES)
     submit = SubmitField('Submit')

@@ -140,13 +140,16 @@
     </div>
 
     <!--Project listing and stuff-->
-    {% if projects %}
-        {% for project in projects %}
-            <a href = "{{ url_for('project.projectpage')}}">{{ project.name }}</a>
-        {% endfor %}
-    {% else %}
-        No projects have been created
-    {% endif %}
+    <div style="text-align:center">
+            {% if projects %}
+                {% for project in projects %}
+                    <a href = "{{ url_for('project.projectpage', project_name=project.name)}}">{{ project.name }}</a>
+                {% endfor %}
+            {% else %}
+                No projects have been created
+            {% endif %}
+    </div>
+    
     <!--info box-->
     <div class='ui-widget ui-widget-content ui-corner-all' style='padding: 2em; margin-left: 199px; margin-right: 199px;clear: both;text-align:center;position: relative;'>
             <p style="font-size:.7em;margin:1;">

@@ -65,7 +65,6 @@ class Project(db.Model):
     texts = db.relationship('Text', backref='project_text',lazy='dynamic')
 
 
-
 class Text(db.Model):
     __tablename__ = 'texts'
     

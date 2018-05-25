@@ -17,7 +17,8 @@
               <thead>
                 <tr>
                   <th width="15%"> Name </th>
-                  <th width="30%"> Department </th>
+                  <th width="30%"> Project </th>
+                  <th width="15%"> Access Level </th>
                   <th width="30%"> Role </th>
                   <th width="15%"> Assign </th>
                 </tr>
@@ -30,20 +31,28 @@
                         <td> N/A </td>
                         <td> N/A </td>
                         <td> N/A </td>
+                        <td> N/A </td>
                     </tr>
                 {% else %}
                     <tr>
                       <td> {{ user.first_name }} {{ user.last_name }} </td>
                       <td>
-                        {% if user.department %}
-                          {{ user.department.name }}
+                        {% if user.project_user %}
+                          {{ user.project_user.name }}
                         {% else %}
                           -
                         {% endif %}
                       </td>
                       <td>
+                        {% if user.access_level %}
+                          {{ user.access_level}}
+                        {% else %}
+                          guest
+                        {% endif %}
+                      </td>
+                      <td>
                         {% if user.role %}
-                          {{ user.role.name }}
+                          {{ user.role }}
                         {% else %}
                           -
                         {% endif %}
