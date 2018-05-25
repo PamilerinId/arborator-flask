@@ -4,3 +4,5 @@ instance/config.py
 instance/__init__.py
 *.pyc 
 TODO.txt
+app.db
+migrations
