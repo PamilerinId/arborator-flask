@@ -138,9 +138,9 @@
         <a href='.' style='position: absolute;left:0px;'><img src="{{ url_for ('static', filename='images/arboratorNano.png') }}" border="0"></a>
         <span style='text-align:center;margin:0 auto;position: relative;top:0px;' id='sentinfo'>Welcome to the Arborator website!</span>
     </div>
-
     <!--Project listing and stuff-->
     <div style="text-align:center">
+            <div><a href="{{ url_for('home.q_test') }}"><p>Test run Arborator</p></a></div>
             {% if projects %}
                 {% for project in projects %}
                     <a href = "{{ url_for('project.projectpage', project_name=project.name)}}">{{ project.name }}</a>
