@@ -4,9 +4,9 @@ This a flask port of the [arborator-server](https://github.com/Arborator/arborat
 # Development
 ## On Windows
 To create database
-`flask db init`
-`flask db migrate`
-`flask db upgrade`
+* `flask db init`
+* `flask db migrate`
+* `flask db upgrade`
 Then run
 * `set FLASK_CONFIG = development`
 * `set FLASK_APP = run.py`
