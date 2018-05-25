@@ -21,8 +21,10 @@ Then run
 
 
 ## TODO
-* Allow visual edit of project config(ini) files
+* Set redirect urls for oauth providers
+* in-app edit of project config(ini) files or find alternative
 * correct dead links on project page
+* css corrections/additions/subtractions 
 
 
 Check out the guide on the [Wiki page](https://github.com/Arborator/arborator-server/wiki).
