@@ -21,6 +21,7 @@ Then run
 
 
 ## TODO
+* Login form for site admins(testing purposes also)
 * Complete project functions conversions (25/5/18)
 * Set redirect urls for oauth providers
 * in-app edit of project config(ini) files or find alternative
